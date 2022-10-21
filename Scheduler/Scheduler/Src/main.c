@@ -18,8 +18,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
-
-#define SRAM_START (0x20000000U)
+#include "scheduler.h"
 
 void enable_processor_faults(void);
 
@@ -30,14 +29,10 @@ void enable_processor_faults(void) {
   *pSHCSR |= (1 << 18);  // usage fault
 }
 
-__attribute__((naked)) void init_scheduler_stack(uint32_t scheduler_stack_top) {
-  __asm volatile("MSR MSP,%0" ::"r"(scheduler_stack_top) :);
-  __asm volatile("BX LR");
-}
 
 int main(void) {
   enable_processor_faults();
-  init_scheduler_stack(SRAM_START);
+  init_scheduler_stack(SZ_SCHEDULER_STACK);
   for (;;)
     ;
 }
