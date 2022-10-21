@@ -19,45 +19,49 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#define SRAM_START (0x20000000U)
+
 void enable_processor_faults(void);
 
-void enable_processor_faults(void){
-  uint32_t * const pSHCSR = (uint32_t *) 0xE000ED24;
-	*pSHCSR |= (1<<16); //mem manage
-	*pSHCSR |= (1<<17); //bus handler
-	*pSHCSR |= (1<<18); //usage fault
+void enable_processor_faults(void) {
+  uint32_t *const pSHCSR = (uint32_t *)0xE000ED24;
+  *pSHCSR |= (1 << 16);  // mem manage
+  *pSHCSR |= (1 << 17);  // bus handler
+  *pSHCSR |= (1 << 18);  // usage fault
 }
 
-int main(void)
-{
+__attribute__((naked)) void init_scheduler_stack(uint32_t scheduler_stack_top) {
+  __asm volatile("MSR MSP,%0" ::"r"(scheduler_stack_top) :);
+  __asm volatile("BX LR");
+}
+
+int main(void) {
   enable_processor_faults();
-
-  uint32_t *pSRAM = (uint32_t*)0x20010000;
-  *pSRAM = 0xFFFFFFFF;
-  void (*some_address) (void);
-  some_address = (void*)0x20010001;
-  some_address();
-  
-	for(;;);
+  init_scheduler_stack(SRAM_START);
+  for (;;)
+    ;
 }
 
-
-void MemManage_Handler(void){
-	printf("MemManage_Handler");
-	while(1);
+void MemManage_Handler(void) {
+  printf("MemManage_Handler");
+  while (1)
+    ;
 }
 
-void UsageFault_Handler(void){
-	printf("UsageFault_Handler");
-	while(1);
+void UsageFault_Handler(void) {
+  printf("UsageFault_Handler");
+  while (1)
+    ;
 }
 
-void BusFault_Handler(void){
-	printf("BusFault_Handler");
-	while(1);
+void BusFault_Handler(void) {
+  printf("BusFault_Handler");
+  while (1)
+    ;
 }
 
-void HardFault_Handler(void){
-	printf("HardFault_Handler");
-	while(1);
+void HardFault_Handler(void) {
+  printf("HardFault_Handler");
+  while (1)
+    ;
 }
