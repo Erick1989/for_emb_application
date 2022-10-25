@@ -20,6 +20,8 @@ uint32_t tasks_handlers[NUM_TASKS] = {
     (uint32_t)&task1_handler, (uint32_t)&task2_handler,
     (uint32_t)&task3_handler, (uint32_t)&task4_handler};
 
+uint16_t current_task=0;
+
 int main(void) {
   enable_processor_faults();
   init_scheduler_stack(SZ_SCHEDULER_STACK);
@@ -34,6 +36,10 @@ void enable_processor_faults(void) {
   *pSHCSR |= (1 << 16);  // mem manage
   *pSHCSR |= (1 << 17);  // bus handler
   *pSHCSR |= (1 << 18);  // usage fault
+}
+
+uint32_t get_psp_value(void){
+	return psp_of_tasks[current_task];
 }
 
 void init_task_stack() {
