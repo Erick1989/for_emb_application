@@ -12,7 +12,7 @@ void task4_handler(void);
 
 #define NUM_TASKS 4U
 #define DUMMY_XPSR 0x01000000U
-#define elcount(x) sizeof(x) / sizeof((x[0]))
+#define elcount(x) (sizeof(x) / sizeof((x[0])))
 
 uint32_t psp_of_tasks[NUM_TASKS] = {T1_STACK_START, T2_STACK_START,
                                     T3_STACK_START, T4_STACK_START};
@@ -24,7 +24,7 @@ uint16_t current_task=0;
 
 int main(void) {
   enable_processor_faults();
-  init_scheduler_stack(SZ_SCHEDULER_STACK);
+  init_scheduler_stack(SCHEDULER_STACK_START);
   init_task_stack();
   switch_sp_to_psp();
   for (;;)
