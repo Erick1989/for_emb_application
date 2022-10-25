@@ -27,6 +27,7 @@ int main(void) {
   init_scheduler_stack(SCHEDULER_STACK_START);
   init_task_stack();
   switch_sp_to_psp();
+  init_systick_timer(TICK_HZ);
   for (;;)
     ;
 }
