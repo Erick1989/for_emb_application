@@ -35,4 +35,24 @@ void init_systick_timer(uint32_t tick_hz) {
   return;
 }
 
-__attribute__((naked)) void SysTick_Handler(void) { __asm volatile("NOP"); }
+__attribute__((naked)) void SysTick_Handler(void) { 
+  	/*Save the Context of the Current Task*/
+	__asm volatile ("PUSH {LR}");
+	  /*Get current running tasks PSP value*/
+	__asm volatile ("MRS R0,PSP");
+	  /*Using new task PSP store (R4 to R11)*/
+	__asm volatile ("STMDB R0!,{R4-R11}");
+	  /*Save the current value of PSP*/
+	__asm volatile ("BL save_psp_value");
+	/*Retrieve the Context of the Next Task*/
+	  /*Decide the next task to run*/
+	__asm volatile ("BL update_next_task");
+	  /*Get PSP value*/
+	__asm volatile ("BL get_psp_value");
+	  /*Retrieve SF2 (R4 to R11) from the retrieven PSP*/
+	__asm volatile ("LDMIA R0!,{R4-R11}");
+	  /*Uptade PSP value*/
+	__asm volatile ("MSR PSP,R0");
+	__asm volatile ("POP {LR}");
+	__asm volatile ("BX LR");
+  }
