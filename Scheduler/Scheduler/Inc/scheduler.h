@@ -43,7 +43,6 @@ __attribute__((naked)) void init_scheduler_stack(uint32_t scheduler_stack_top);
 __attribute__((naked)) void switch_sp_to_psp(void);
 __attribute__((naked)) void SysTick_Handler(void);
 
-#define NUM_TASKS 4U
 
 void init_systick_timer(uint32_t tick_hz);
 void init_task_stack(void);

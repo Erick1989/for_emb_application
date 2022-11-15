@@ -21,6 +21,7 @@ int main(void) {
   init_task_stack();
   switch_sp_to_psp();
   init_systick_timer(TICK_HZ);
+  task1_handler();
   for (;;)
     ;
 }
