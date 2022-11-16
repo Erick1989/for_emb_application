@@ -1,9 +1,14 @@
 CC=/usr/bin/arm-none-eabi-gcc
 C=/usr/bin/g++
 LIBS= -lgtest -lpthread
+TEST_INC= -I ./inc -I ./inc/test 
+SRC_INC=  -I ./inc -I ./inc/target
 
-testRunner.o: testRunner.cpp LibraryCode.cpp
-	$(C) $^ $(LIBS) -o $@
+testRunner.o:test/testRunner.cpp src/LedDriver.cpp 
+	$(C) $^ $(LIBS) $(TEST_INC) -o $@
+
+LibraryCode.o:src/LibraryCode2.cpp
+	$(C) $^ $(LIBS) $(SRC_INC) -o $@
 
 .PHONY: clean
 clean:
