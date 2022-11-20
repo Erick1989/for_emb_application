@@ -93,6 +93,14 @@ TEST(Ledctor, LedInit_SETS_GPIOMODER_OUT_FOR_PORTK_PIN0)
     ASSERT_EQ(get_bit_val(2 * PIN_POS_0 + 1, v_pGpioSpace[PORT_K * GPIO_LEN]), 0);
 }
 
+TEST(Ledctor, LedInit_SETS_GPIOMODER_OUT_FOR_PORTK_PIN15)
+{
+    v_pGpioSpace[PORT_K * GPIO_LEN] = 0;
+    auto my_led = led(PORT_K, PIN_POS_15);
+    ASSERT_EQ(get_bit_val(2 * PIN_POS_15, v_pGpioSpace[PORT_K * GPIO_LEN]), 1);
+    ASSERT_EQ(get_bit_val(2 * PIN_POS_15 + 1, v_pGpioSpace[PORT_K * GPIO_LEN]), 0);
+}
+
 TEST(Ledctor, LedInit_CLEARS_ODR_FOR_PORTA_PIN0)
 {
     v_pGpioSpace[PORT_A * GPIO_LEN + ODR_OFFSET] = 0;

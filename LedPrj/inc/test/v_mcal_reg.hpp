@@ -4,7 +4,7 @@
 uint32_t v_pRccAhb1enr = 0;
 #define addr_pRccAhb1enr &v_pRccAhb1enr
 
-uint32_t v_pGpioSpace[10240];
+uint32_t v_pGpioSpace[11263];
 uint32_t * addr_pGpioBaseReg=v_pGpioSpace;
 #define GPIO_LEN (0x0400UL)
 
