@@ -3,51 +3,62 @@
 #include "scheduler.h"
 #include "common.h"
 #include "faulthandler.h"
-
-void task1_handler(void);
-void task2_handler(void);
-void task3_handler(void);
-void task4_handler(void);
+#include "main.h"
+#include "led.h"
 
 
-uint32_t tasks_handlers[NUM_TASKS] = {
-    (uint32_t)&task1_handler, (uint32_t)&task2_handler,
-    (uint32_t)&task3_handler, (uint32_t)&task4_handler};
 
+TCB_t user_tasks[NUM_TASKS];
 
 int main(void) {
   enable_processor_faults();
   init_scheduler_stack(SCHEDULER_STACK_START);
   init_task_stack();
   switch_sp_to_psp();
+  led_init_all();
+  led_on(LED_GREEN);
   init_systick_timer(TICK_HZ);
   task1_handler();
   for (;;)
     ;
 }
 
-void task1_handler(void) {
-  while (1) {
-    printf("This is task1\n");
-  }
+void idle_task(void){
+	while(1);
 }
 
-void task2_handler(void) {
-  while (1) {
-    printf("This is task2\n");
-  }
+void task1_handler(void){
+	while(1){
+		led_on(LED_GREEN);
+		task_delay(1000);
+		led_off(LED_GREEN);
+		task_delay(1000);
+	}
 }
 
-void task3_handler(void) {
-  while (1) {
-    printf("This is task3\n");
-  }
+void task2_handler(void){
+	while(1){
+		led_on(LED_BLUE);
+		task_delay(250);
+		led_off(LED_BLUE);
+		task_delay(250);
+	}
 }
 
-void task4_handler(void) {
-  while (1) {
-    printf("This is task4\n");
-  }
+void task3_handler(void){
+	while(1){
+		led_on(LED_RED);
+		task_delay(500);
+		led_off(LED_RED);
+		task_delay(500);
+	}
 }
 
-
+void task4_handler(void){
+	while(1){
+		led_on(LED_ORANGE);
+		task_delay(500);
+		led_off(LED_ORANGE);
+		task_delay(500);
+	}
+}
