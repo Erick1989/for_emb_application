@@ -22,12 +22,26 @@ const uint16_t PIN_POS_15 = 15;
 RuntimeError gErrorLogger;
 
 int main(){
+    int volatile dummy;
     auto led_green = led(PORT_D, PIN_POS_12);
     auto led_orange = led(PORT_D, PIN_POS_13);
     auto led_red = led(PORT_D, PIN_POS_14);
     auto led_blue = led(PORT_D, PIN_POS_15);
+    while(1){
+    dummy=0;
     led_green.on();
     led_orange.on();
     led_red.on();
     led_blue.on();
+    dummy=1;
+    led_green.off();
+    led_orange.off();
+    led_red.off();
+    led_blue.off();
+    dummy=2;
+    led_green.toggle();
+    led_orange.toggle();
+    led_red.toggle();
+    led_blue.toggle();
+    }
 }

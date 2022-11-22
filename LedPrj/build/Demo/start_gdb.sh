@@ -1,9 +1,9 @@
 #!/bin/sh
 arm-none-eabi-gdb ./Demo.elf
 #target remote localhost:3333
-#monitor reset init` 
-#monitor flash write_image erase Demo.elf` 
-#monitor reset halt` 
+#monitor reset init 
+#monitor flash write_image erase Demo.elf
+#monitor reset halt 
 
 #gdb usefull commands
 #b file.cpp:line num
@@ -28,3 +28,5 @@ arm-none-eabi-gdb ./Demo.elf
     #c
 #step 
     #s
+#next
+    #n
